@@ -64,8 +64,6 @@ r.GET("/tracks/:id", func(w http.ResponseWriter, r *http.Request, p httprouter.P
 })
 ```
 
-
-
 We change the json names of the properties of the model because in the javascript conventions, fields are written  with 
 lower case.
 
@@ -78,3 +76,5 @@ type Track struct {
 	Genre  string	`json:"genre"`
 }
  ```
+ 
+Now we add a POST and DELETE route, just like we did the GET route.
