@@ -33,11 +33,11 @@ letter. Otherwise they won't be visible for other packages (including the main p
 
 ```Go
 type Track struct {
-	    Id     string
-	    Title  string
-	    Artist string
-	    Album  string
-	    Genre  string
+	Id     string
+	Title  string
+	Artist string
+	Album  string
+	Genre  string
 }
 ```
 
@@ -45,22 +45,22 @@ Then we create a new route for the router to serve our model.
 
 ```Go
 r.GET("/tracks/:id", func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	    t := models.Track{
-	    	    Title:"Song 2",
-			    Artist: "Blur",
-			    Album: "Blur",
-			    Genre: "Rock",
-			    Id: "1",
-		}
+	t := models.Track{
+		Title:"Song 2",
+		Artist: "Blur",
+		Album: "Blur",
+		Genre: "Rock",
+		Id: "1",
+    }
  
-		tj, err := json.Marshal(t)
-		if err!=nil {
-			    fmt.Println("Error while trying to marshal track:", err)
-		}
+    tj, err := json.Marshal(t)
+    if err!=nil {
+    	fmt.Println("Error while trying to marshal track:", err)
+    }
  
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-		fmt.Fprintf(w, "%s", tj)
-	})
+    w.Header().Set("Content-Type", "application/json")
+    w.WriteHeader(http.StatusOK)
+    fmt.Fprintf(w, "%s", tj)
+})
 ```
 
