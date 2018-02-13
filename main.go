@@ -42,6 +42,31 @@ func main() {
 		fmt.Fprintf(w, "%s", tj)
 	})
 
+	r.POST("/tracks", func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+		// Create empty value to fill with body of request
+		t := models.Track{}
+
+		// Fill the track's fields
+		json.NewDecoder(r.Body).Decode(&t)
+
+		// Add an id
+		t.Id = "someId"
+
+		// Marshal the value to json
+		tj, err := json.Marshal(t)
+		// Check for errors
+		if err!=nil {
+			fmt.Println("Error while trying to marshal track:", err)
+		}
+
+		// Write the content-type, statuscode and content with the response writer
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusCreated)
+		fmt.Fprintf(w, "%s", tj)
+	})
+
+	r.DELETE()
+
 	// Give some feedback to the console
 	fmt.Println("Serving on localhost:3000")
 
