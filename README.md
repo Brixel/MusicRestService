@@ -9,7 +9,7 @@ fmt.Println("Hello Brixel!")
 ```
 
 Next we will build a simple http server that serves the hello world message when a user enters a URL. Therefore we 
-need a package that can be downloaded with the<b>"go get"</b>command.
+need a package that can be downloaded with the **"go get"** command.
 
 ```bash
 $ go get github.com/julienschmidt/httprouter
@@ -25,13 +25,13 @@ Hello Brixel!
 ```
 
 Of course this is not the content we want to share. We want to share a music library. To do this, we need to build a 
-type of which we can share values, something that represents the music library, a<b>model</b>. We will store our models 
+type of which we can share values, something that represents the music library, a **model**. We will store our models 
 in a separate folder, the models folder.
 
 When we create the model, make sure that the name of the type and the properties of the type are spelled with a capital 
 letter. Otherwise they won't be visible for other packages (including the main package). 
 
-````Go
+```Go
 type Track struct {
 	    Id     string
 	    Title  string
@@ -39,5 +39,28 @@ type Track struct {
 	    Album  string
 	    Genre  string
 }
-````
+```
+
+Then we create a new route for the router to serve our model.
+
+```Go
+r.GET("/tracks/:id", func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	    t := models.Track{
+	    	    Title:"Song 2",
+			    Artist: "Blur",
+			    Album: "Blur",
+			    Genre: "Rock",
+			    Id: "1",
+		}
+ 
+		tj, err := json.Marshal(t)
+		if err!=nil {
+			    fmt.Println("Error while trying to marshal track:", err)
+		}
+ 
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		fmt.Fprintf(w, "%s", tj)
+	})
+```
 
