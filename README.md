@@ -82,3 +82,5 @@ Now we add a POST and DELETE route, just like we did the GET route.
 Because all of these routes are making the main.go file messy, we are going to create a type that handles all of our requests. A controller. Just like with the models, we are going to create a separate folder for that, "controllers".
 
 In the controller we create the basic functions to create an instance and the methods to handle the requests.
+
+We create a new TrackController in the main function and use it's methods for handling the requests.
