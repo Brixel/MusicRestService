@@ -51,16 +51,16 @@ r.GET("/tracks/:id", func(w http.ResponseWriter, r *http.Request, p httprouter.P
 		Album: "Blur",
 		Genre: "Rock",
 		Id: "1",
-    }
+	}
  
-    tj, err := json.Marshal(t)
-    if err!=nil {
-    	fmt.Println("Error while trying to marshal track:", err)
-    }
+ 	tj, err := json.Marshal(t)
+	if err!=nil {
+		fmt.Println("Error while trying to marshal track:", err)
+	}
  
-    w.Header().Set("Content-Type", "application/json")
-    w.WriteHeader(http.StatusOK)
-    fmt.Fprintf(w, "%s", tj)
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w, "%s", tj)
 })
 ```
 
