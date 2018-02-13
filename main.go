@@ -65,7 +65,10 @@ func main() {
 		fmt.Fprintf(w, "%s", tj)
 	})
 
-	r.DELETE()
+	r.DELETE("/tracks", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+		// TODO: there is no database to remove from yet
+		w.WriteHeader(http.StatusNotImplemented)
+	})
 
 	// Give some feedback to the console
 	fmt.Println("Serving on localhost:3000")
