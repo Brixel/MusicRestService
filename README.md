@@ -64,3 +64,17 @@ r.GET("/tracks/:id", func(w http.ResponseWriter, r *http.Request, p httprouter.P
 })
 ```
 
+
+
+We change the json names of the properties of the model because in the javascript conventions, fields are written  with 
+lower case.
+
+ ```Go
+type Track struct {
+	Id     string	`json:"id"`
+	Title  string	`json:"title"`
+	Artist string	`json:"artist"`
+	Album  string	`json:"album"`
+	Genre  string	`json:"genre"`
+}
+ ```
