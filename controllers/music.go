@@ -6,25 +6,57 @@ import (
 	"fmt"
 	"github.com/julienschmidt/httprouter"
 	"github.com/wim07101993/MusicRestService/models"
+	"github.com/wim07101993/MusicRestService/store"
+	"github.com/wim07101993/MusicRestService/store/noDb"
 )
 
 // TrackController represents the controller to modify the music collection
-type TrackController struct{}
+type TrackController struct {
+	storer store.Storer
+}
 
 // NewTrackController creates a pointer to a new value of the TrackController type
 func NewTrackController() *TrackController {
-	return &TrackController{}
+	return &TrackController{
+		storer: noDb.NewMusicStore(),
+	}
+}
+
+func (tc *TrackController) GetAllTracks(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	// Get all values from the store
+	ts, err := tc.storer.GetAll()
+	if err != nil {
+		fmt.Println("Error while trying to get all tracks:", err)
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+
+	// Marshal the value to json
+	tsj, err := json.Marshal(ts)
+	if err != nil {
+		fmt.Println("Error while trying to marshal tracks:", err)
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+
+	// Write the content-type, statuscode and content with the response writer
+	tc.respondWithJSON(w, tsj, http.StatusOK)
 }
 
 // GetTrack retrieves a single track from the music collection
-func (tc TrackController) GetTrack(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	// Create an example track to serve
-	t := models.Track{
-		Title:  "Song 2",
-		Artist: "Blur",
-		Album:  "Blur",
-		Genre:  "Rock",
-		Id:     "1",
+func (tc *TrackController) GetTrack(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	id := p.ByName("id")
+
+	// Get the track to serve
+	t, err := tc.storer.Get(id)
+	if err != nil {
+		fmt.Println("Error while trying to get the track:", err)
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	if t.Id == "" {
+		// Write the content-type, statuscode and content with the response writer
+		tc.respondWithJSON(w, nil, http.StatusOK)
+		return
 	}
 
 	// Marshal the value to json
@@ -35,35 +67,49 @@ func (tc TrackController) GetTrack(w http.ResponseWriter, r *http.Request, p htt
 	}
 
 	// Write the content-type, statuscode and content with the response writer
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, "%s", tj)
+	tc.respondWithJSON(w, tj, http.StatusOK)
 }
 
-func (tc TrackController) CreateTrack(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+func (tc *TrackController) CreateTrack(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	// Create empty value to fill with body of request
 	t := models.Track{}
 
 	// Fill the track's fields
 	json.NewDecoder(r.Body).Decode(&t)
 
-	// Add an id
-	t.Id = "someId"
+	err := tc.storer.Create(&t)
+	if err != nil {
+		fmt.Println("Error while trying to create track:", err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 
 	// Marshal the value to json
 	tj, err := json.Marshal(t)
-	// Check for errors
-	if err!=nil {
+	if err != nil {
 		fmt.Println("Error while trying to marshal track:", err)
 	}
 
 	// Write the content-type, statuscode and content with the response writer
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
-	fmt.Fprintf(w, "%s", tj)
+	tc.respondWithJSON(w, tj, http.StatusCreated)
 }
 
-func (tc TrackController) DeleteTrack(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	// TODO: there is no database to remove from yet
-	w.WriteHeader(http.StatusNotImplemented)
+func (tc *TrackController) DeleteTrack(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	id := p.ByName("id")
+
+	err := tc.storer.Delete(id)
+
+	if err != nil {
+		fmt.Println("Error while trying to delete track:", err)
+		w.WriteHeader(http.StatusNotFound)
+	} else {
+		w.WriteHeader(http.StatusOK)
+	}
+}
+
+func (tc *TrackController) respondWithJSON(w http.ResponseWriter, json []byte, statusCode int) {
+	// Write the content-type, statuscode and content with the response writer
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(statusCode)
+	fmt.Fprintf(w, "%s", json)
 }

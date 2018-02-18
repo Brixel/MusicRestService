@@ -21,9 +21,10 @@ func main() {
 	tc := controllers.NewTrackController()
 
 	// Add a route to serve a track
+	r.GET("/tracks/", tc.GetAllTracks)
 	r.GET("/tracks/:id", tc.GetTrack)
 	r.POST("/tracks", tc.CreateTrack)
-	r.DELETE("/tracks", tc.DeleteTrack)
+	r.DELETE("/tracks/:id", tc.DeleteTrack)
 
 	// Give some feedback to the console
 	fmt.Println("Serving on localhost:3000")
