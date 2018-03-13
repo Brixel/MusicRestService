@@ -1,5 +1,4 @@
-FROM golang:onbuild
-FROM golang:latest 
+FROM golang:1.10-windowsservercore-1709 
 RUN mkdir /app 
 COPY buildresult /app/
 WORKDIR /app
