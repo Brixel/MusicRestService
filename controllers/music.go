@@ -7,8 +7,9 @@ import (
 	"github.com/julienschmidt/httprouter"
 	"github.com/wim07101993/MusicRestService/models"
 	"github.com/wim07101993/MusicRestService/store"
-	"github.com/wim07101993/MusicRestService/store/noDb"
 	"gopkg.in/mgo.v2/bson"
+	//"github.com/wim07101993/MusicRestService/store/noDb"
+	"github.com/wim07101993/MusicRestService/store/mongoDb"
 )
 
 // TrackController represents the controller to modify the music collection
@@ -18,8 +19,15 @@ type TrackController struct {
 
 // NewTrackController creates a pointer to a new value of the TrackController type
 func NewTrackController() *TrackController {
+	ts, err := mongoDb.NewTrackStore("mongodb://localhost", "music", "tracks")
+
+	if err != nil {
+		panic(err)
+	}
+
 	return &TrackController{
-		storer: noDb.NewTrackStore(),
+		//storer: noDb.NewTrackStore(),
+		storer: ts,
 	}
 }
 

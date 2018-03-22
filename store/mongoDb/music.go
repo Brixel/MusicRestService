@@ -29,7 +29,7 @@ func NewTrackStore(connectionString string, db string, collection string) (*Trac
 }
 
 // Create stores a new track in the database
-func (ts *TrackStore) CreateUser(t *models.Track) error {
+func (ts *TrackStore) Create(t *models.Track) error {
 	t.Id = bson.NewObjectId()
 	return ts.mgoSession.DB(ts.db).C(ts.collection).Insert(t)
 }
@@ -46,8 +46,8 @@ func (ts *TrackStore) GetAll() ([]models.Track, error) {
 }
 
 // Get retrieves a single track from the database, that with the given id
-func (ts *TrackStore) Get(id bson.ObjectId) (*models.Track, error){
-	t:=models.Track{}
+func (ts *TrackStore) Get(id bson.ObjectId) (*models.Track, error) {
+	t := models.Track{}
 
 	if err := ts.mgoSession.DB(ts.db).C(ts.collection).FindId(id).One(&t); err != nil {
 		return nil, err
@@ -57,6 +57,6 @@ func (ts *TrackStore) Get(id bson.ObjectId) (*models.Track, error){
 }
 
 // Delete deletes a track from database, that with the given id
-func (ts *TrackStore) Delete(id bson.ObjectId) error{
+func (ts *TrackStore) Delete(id bson.ObjectId) error {
 	return ts.mgoSession.DB(ts.db).C(ts.collection).RemoveId(id)
 }
