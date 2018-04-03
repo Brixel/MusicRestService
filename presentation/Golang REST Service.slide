@@ -26,3 +26,10 @@ Configuratiescherm -> Systeem -> Geavanceerde systeeminstellingen -> Omgevingsva
 - JetBrains GoLand
 
 
+* Basic server
+
+.code -edit serve-hello-brixel/main.go
+
+* Verder in Goland
+
+We gaan nu verder in de editor (voor duidelijkheid)
