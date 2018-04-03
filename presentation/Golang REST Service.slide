@@ -1,0 +1,28 @@
+Golang REST Service
+Een eenvoudige REST service in Go
+10:00 28 Apr 2018
+Tags: REST, web
+
+Wim Van Laer
+Student ICT, UCLL
+wim.van_laer@hotmail.com
+
+
+* Installatie Go
+
+https://golang.org/dl/
+
+Configuratiescherm -> Systeem -> Geavanceerde systeeminstellingen -> Omgevingsvariabelen... -> Nieuw: { "Naam": "GOPATH", "Waarde": "C:\Users\...\Go" }
+
+.play -edit hello-brixel/main.go
+
+
+* Editor
+
+- Nodepad(++)
+- Sublime Text
+- VS Code
+- ...
+- JetBrains GoLand
+
+
