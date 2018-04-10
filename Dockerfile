@@ -1,5 +1,5 @@
-FROM golang:1.10
-RUN mkdir /app 
-COPY server /app/
-WORKDIR /app
-ENTRYPOINT ["server"]
+FROM scratch
+ADD server ./
+ENV PORT 3000
+EXPOSE 3000
+ENTRYPOINT ["/server"]
