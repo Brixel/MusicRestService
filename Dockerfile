@@ -1,5 +1,5 @@
 FROM golang:alpine
-RUN mkdir /app 
-COPY server /app/
-WORKDIR /app
+COPY server .
+ENV PORT 3000
+EXPOSE 3000
 ENTRYPOINT ["server"]
