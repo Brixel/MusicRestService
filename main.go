@@ -27,10 +27,10 @@ func main() {
 	r.DELETE("/tracks/:id", tc.DeleteTrack)
 
 	// Give some feedback to the console
-	fmt.Println("Serving on localhost:3000")
+	fmt.Println("Serving on 0.0.0.0:3000")
 
 	// Start the server by listening on the right port
-	err := http.ListenAndServe("localhost:3000", r)
+	err := http.ListenAndServe("0.0.0.0:3000", r)
 	// If something goes wrong while serving, notify over the console
 	if err != nil {
 		fmt.Println("Error while trying to serve:", err)
