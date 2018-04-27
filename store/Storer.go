@@ -1,7 +1,7 @@
 package store
 
 import (
-	"github.com/wim07101993/MusicRestService/models"
+	"github.com/brixel/MusicRestService/models"
 	"gopkg.in/mgo.v2/bson"
 )
 

@@ -5,11 +5,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/julienschmidt/httprouter"
-	"github.com/wim07101993/MusicRestService/models"
-	"github.com/wim07101993/MusicRestService/store"
+	"github.com/brixel/MusicRestService/models"
+	"github.com/brixel/MusicRestService/store"
 	"gopkg.in/mgo.v2/bson"
-	//"github.com/wim07101993/MusicRestService/store/noDb"
-	"github.com/wim07101993/MusicRestService/store/mongoDb"
+	//"github.com/brixel/MusicRestService/store/noDb"
+	"github.com/brixel/MusicRestService/store/mongoDb"
 )
 
 // TrackController represents the controller to modify the music collection

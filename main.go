@@ -4,7 +4,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 	"net/http"
 	"fmt"
-	"github.com/wim07101993/MusicRestService/controllers"
+	"github.com/brixel/MusicRestService/controllers"
 )
 
 func main() {
