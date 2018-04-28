@@ -1,2 +1,4 @@
 .idea/
 .vs/
+/.vscode
+/store/noDb/debug.test
