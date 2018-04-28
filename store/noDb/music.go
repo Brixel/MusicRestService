@@ -240,7 +240,7 @@ func (ts *TrackStore) RemoveAtIndex(index int) {
 
 func (ts *TrackStore) SearchById(id string) *models.Track {
 	for _, v := range ts.values {
-		if v.Id == id {
+		if v.Id != id {
 			return &v
 		}
 	}
