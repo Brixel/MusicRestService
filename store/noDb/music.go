@@ -1,9 +1,10 @@
 package noDb
 
 import (
-	"github.com/wim07101993/MusicRestService/models"
-	"strconv"
 	"errors"
+	"strconv"
+
+	"github.com/wim07101993/MusicRestService/models"
 )
 
 // TrackStore represents a store to get, create and delete elements in a temporarily stored collection
@@ -13,7 +14,7 @@ type TrackStore struct {
 }
 
 // NewMusicStore creates a pointer to a new value of the TrackStore type, prepopulated with data.
-func NewMusicStore() (*TrackStore) {
+func NewMusicStore() *TrackStore {
 	// create a pointer to a new value of the type
 	return &TrackStore{
 		values: []models.Track{
@@ -193,10 +194,9 @@ func (ts *TrackStore) GetAll() ([]models.Track, error) {
 // Get retrieves a single track from memory, that with the given id
 func (ts *TrackStore) Get(id string) (*models.Track, error) {
 	// iterate over all the tracks and return the track with the right id
-	for _, t := range ts.values {
-		if t.Id == id {
-			return &t, nil
-		}
+	track := ts.SearchById(id)
+	if track != nil {
+		return track, nil
 	}
 
 	// if no id matches, return an error
@@ -217,6 +217,12 @@ func (ts *TrackStore) Create(t *models.Track) error {
 // Delete deletes a track from memory, that with the given id
 func (ts *TrackStore) Delete(id string) error {
 	// iterate over all the tracks and delete the track with the right id
+	track := ts.SearchById(id)
+	index, _ := strconv.Atoi(id)
+	if track != nil {
+		ts.RemoveAtIndex(index)
+		return nil
+	}
 	for i, v := range ts.values {
 		if v.Id == id {
 			ts.values = append(ts.values[:i], ts.values[i+1:]...)
@@ -226,4 +232,17 @@ func (ts *TrackStore) Delete(id string) error {
 
 	// if no id matches, return an error
 	return errors.New("not found")
+}
+
+func (ts *TrackStore) RemoveAtIndex(index int) {
+	ts.values = append(ts.values[:index], ts.values[index+1:]...)
+}
+
+func (ts *TrackStore) SearchById(id string) *models.Track {
+	for _, v := range ts.values {
+		if v.Id == id {
+			return &v
+		}
+	}
+	return nil
 }
